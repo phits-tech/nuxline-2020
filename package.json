@@ -9,6 +9,7 @@
     "deploy": "vue-cli-service build ; firebase deploy --only hosting"
   },
   "dependencies": {
+    "buefy": "^0.8.9",
     "core-js": "^3.4.4",
     "firebase": "^7.6.2",
     "vue": "^2.6.10",
