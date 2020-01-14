@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Site from '../views/Site.vue'
 import * as Pages from '@/pages'
 
 Vue.use(VueRouter)
 
 const routes: RouteConfig[] = [
   {
-    path: '/',
-    component: Site,
+    path: '',
+    component: Pages.SiteRoot,
     children: [
       {
         path: '/',
