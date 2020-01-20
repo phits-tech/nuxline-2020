@@ -25,7 +25,7 @@
           <strong>NU x LINE Mentorship Programme</strong> is supported by
         </p>
         <p>
-          <img src="@/assets/supported-by-logos.png" style="width: 425px" />
+          <img src="@/assets/supported-by-logos.png" style="max-width: 425px; width: 100%" />
         </p>
       </div>
     </footer>
