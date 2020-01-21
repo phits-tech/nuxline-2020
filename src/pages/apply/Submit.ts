@@ -19,6 +19,9 @@ export default class SubmitPage extends Vue {
 
   // Data & State
   private formTeamName: string = ''
+  private formContactName: string = ''
+  private formLine: string = ''
+  private formEmail: string = ''
   private formPresentation: File | null = null
 
   private presentationRef: string | null = null
@@ -36,6 +39,9 @@ export default class SubmitPage extends Vue {
   data () {
     return ({
       formTeamName: this.formTeamName,
+      formContactName: this.formContactName,
+      formLine: this.formLine,
+      formEmail: this.formEmail,
       formPresentation: this.formPresentation,
       uploadProgress: this.uploadProgress,
       submitted: this.submitted
@@ -88,6 +94,9 @@ export default class SubmitPage extends Vue {
 
     const update = {
       teamName: this.formTeamName,
+      contactName: this.formContactName,
+      lineId: this.formLine,
+      email: this.formEmail,
       presentation: this.presentationUrl
     }
 

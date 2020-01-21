@@ -2,8 +2,21 @@
     <div class="container">
         <div class="columns">
             <div class="column content" style="max-width: 300px;">
+
                 <b-field label="Team Name">
                     <b-input v-model="formTeamName" placeholder="The Awesomes"></b-input>
+                </b-field>
+
+                <b-field label="Name (Primary Contact)">
+                    <b-input v-model="formContactName" placeholder="Hulio Solomon"></b-input>
+                </b-field>
+
+                <b-field label="LINE ID (not phone number)">
+                    <b-input v-model="formLine" placeholder="@iloveline"></b-input>
+                </b-field>
+
+                <b-field label="Email">
+                    <b-input v-model="formEmail" placeholder="iloveline@gmail.com"></b-input>
                 </b-field>
 
                 <template>
@@ -45,6 +58,7 @@
                         </p>
                     </section>
                 </template>
+
             </div>
         </div>
     </div>
