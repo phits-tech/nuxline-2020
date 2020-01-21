@@ -1,6 +1,6 @@
 <template>
   <div class="site">
-    <b-navbar fixed-top="true" type="is-success" wrapper-class="container">
+    <b-navbar fixed-top="true" type="is-primary" wrapper-class="container">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
           <strong>NU x LINE Mentorship Programme</strong>
@@ -11,7 +11,7 @@
         <b-navbar-item tag="router-link" :to="{ path: '/schedule' }">Schedule</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ path: '/apply' }">How to apply</b-navbar-item>
         <b-navbar-item tag="span">
-          <a class="button is-success is-inverted">
+          <a class="button is-primary is-inverted">
             <b-icon pack="fas" icon="rocket"></b-icon>
             <strong>Apply Now</strong>
           </a>
