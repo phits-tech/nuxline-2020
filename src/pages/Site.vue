@@ -10,7 +10,7 @@
         <b-navbar-item tag="router-link" :to="{ path: '/' }">About</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ path: '/schedule' }">Schedule</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ path: '/apply' }">How to apply</b-navbar-item>
-        <b-navbar-item tag="span">
+        <b-navbar-item tag="router-link" :to="{ path: '/submit' }">
           <a class="button is-primary is-inverted">
             <b-icon pack="fas" icon="rocket"></b-icon>
             <strong>Apply Now</strong>

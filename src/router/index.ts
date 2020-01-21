@@ -23,6 +23,11 @@ const routes: RouteConfig[] = [
         path: 'apply',
         name: 'apply',
         component: Pages.ApplyPage
+      },
+      {
+        path: 'submit',
+        name: 'submit',
+        component: Pages.SubmitPage
       }
     ]
   }

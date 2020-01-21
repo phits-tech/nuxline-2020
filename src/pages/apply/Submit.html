@@ -1,0 +1,51 @@
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column content" style="max-width: 300px;">
+                <b-field label="Team Name">
+                    <b-input v-model="formTeamName" placeholder="The Awesomes"></b-input>
+                </b-field>
+
+                <template>
+                    <section>
+                        <b-field v-if="!formPresentation" label="Presentation">
+                            <b-upload v-model="formPresentation" drag-drop>
+                                <section class="section">
+                                    <div class="content has-text-centered">
+                                        <p>
+                                            <b-icon icon="upload" size="is-large"></b-icon>
+                                        </p>
+                                        <p>Drop your file here or click to upload</p>
+                                    </div>
+                                </section>
+                            </b-upload>
+                        </b-field>
+
+                        <b-field v-if="formPresentation" label="Presentation">
+                            <div class="tags">
+                                <span class="tag is-primary">
+                                    {{formPresentation.name}}
+                                    <button class="delete is-small" type="button"
+                                        @click="deletePresentationFile()"></button>
+
+                                </span>
+                            </div>
+                        </b-field>
+
+                        <b-progress v-if="formPresentation" :value="uploadProgress"></b-progress
+                            v-if="formPresentation">
+                    </section>
+                </template>
+
+                <template>
+                    <section>
+                        <p>
+                            <br /><!-- TODO: Remove this hack -->
+                            <b-button type="is-primary" @click="submit" :loading=submitted>Submit Application</b-button>
+                        </p>
+                    </section>
+                </template>
+            </div>
+        </div>
+    </div>
+</section>
