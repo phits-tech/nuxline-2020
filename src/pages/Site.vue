@@ -2,8 +2,8 @@
   <div class="site">
     <b-navbar fixed-top type="is-primary" wrapper-class="container">
       <template slot="brand">
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <strong>NU x LINE Mentorship Programme</strong>
+        <b-navbar-item tag="span">
+          <strong style="color: #fff">NU x LINE Mentorship Programme</strong>
         </b-navbar-item>
       </template>
       <template slot="end">
