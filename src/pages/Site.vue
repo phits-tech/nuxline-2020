@@ -7,10 +7,10 @@
         </b-navbar-item>
       </template>
       <template slot="end">
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">About</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/schedule' }">Schedule</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/apply' }">How to apply</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/submit' }">
+        <b-navbar-item tag="router-link" :to="{ name: 'landing' }">About</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ name: 'schedule' }">Schedule</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ name: 'apply' }">How to apply</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ name: 'submit' }">
           <a class="button is-primary is-inverted">
             <b-icon pack="fas" icon="rocket"></b-icon>
             <strong>Apply Now</strong>

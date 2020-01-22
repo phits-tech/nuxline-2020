@@ -6,11 +6,17 @@ Vue.use(VueRouter)
 
 const routes: RouteConfig[] = [
   {
-    path: '',
+    path: '/', redirect: '/nuxline'
+  },
+  {
+    path: '/line', redirect: '/nuxline'
+  },
+  {
+    path: '/nuxline/',
     component: Pages.SiteRoot,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'landing',
         component: Pages.LandingPage
       },
