@@ -3,64 +3,79 @@
         <div class="columns">
             <div class="column content" style="max-width: 300px; margin-left: auto; margin-right: auto">
 
-                <h1>Application Form</h1>
+                <ValidationObserver v-slot="{ handleSubmit }">
+                    <form @submit.prevent="handleSubmit(submit)">
 
-                <b-field label="Team Name">
-                    <b-input v-model="formTeamName" placeholder="The Awesomes"></b-input>
-                </b-field>
+                        <h1>Application Form</h1>
 
-                <b-field label="Name (Primary Contact)">
-                    <b-input v-model="formContactName" placeholder="Hulio Solomon"></b-input>
-                </b-field>
+                        <ValidationProvider rules="required" v-slot="{ errors }">
+                            <b-field label="Team Name" :type="{'is-danger': errors.length}" :message="errors[0]">
+                                <b-input v-model="formTeamName" placeholder="The Awesomes"></b-input>
+                            </b-field>
+                        </ValidationProvider>
 
-                <b-field label="LINE ID (not phone number)">
-                    <b-input v-model="formLine" placeholder="@iloveline"></b-input>
-                </b-field>
+                        <ValidationProvider rules="required" v-slot="{ errors }">
+                            <b-field label="Name (Primary Contact)" :type="{'is-danger': errors.length}"
+                                :message="errors[0]">
+                                <b-input v-model="formContactName" placeholder="Hulio Solomon"></b-input>
+                            </b-field>
+                        </ValidationProvider>
 
-                <b-field label="Email">
-                    <b-input v-model="formEmail" placeholder="iloveline@gmail.com"></b-input>
-                </b-field>
+                        <ValidationProvider rules="required" v-slot="{ errors }">
+                            <b-field label="LINE ID (not phone number)" :type="{'is-danger': errors.length}"
+                                :message="errors[0]">
+                                <b-input v-model="formLine" placeholder="@iloveline"></b-input>
+                            </b-field>
+                        </ValidationProvider>
 
-                <template>
-                    <section>
-                        <b-field v-if="!formPresentation" label="Presentation">
-                            <b-upload v-model="formPresentation" drag-drop>
-                                <section class="section">
-                                    <div class="content has-text-centered">
-                                        <p>
-                                            <b-icon icon="upload" size="is-large"></b-icon>
-                                        </p>
-                                        <p>Drop your file here or click to upload</p>
+                        <ValidationProvider rules="required|email" v-slot="{ errors }" data-vv-delay="750">
+                            <b-field label="Email" :type="{'is-danger': errors.length}" :message="errors[0]">
+                                <b-input v-model="formEmail" placeholder="iloveline@gmail.com"></b-input>
+                            </b-field>
+                        </ValidationProvider>
+
+                        <template>
+                            <section>
+                                <b-field v-if="!formPresentation" label="Presentation">
+                                    <b-upload v-model="formPresentation" drag-drop>
+                                        <section class="section">
+                                            <div class="content has-text-centered">
+                                                <p>
+                                                    <b-icon icon="upload" size="is-large"></b-icon>
+                                                </p>
+                                                <p>Drop your file here or click to upload</p>
+                                            </div>
+                                        </section>
+                                    </b-upload>
+                                </b-field>
+
+                                <b-field v-if="formPresentation" label="Presentation">
+                                    <div class="tags">
+                                        <span class="tag is-primary">
+                                            {{formPresentation.name}}
+                                            <button class="delete is-small" type="button"
+                                                @click="deletePresentationFile()"></button>
+
+                                        </span>
                                     </div>
-                                </section>
-                            </b-upload>
-                        </b-field>
+                                </b-field>
 
-                        <b-field v-if="formPresentation" label="Presentation">
-                            <div class="tags">
-                                <span class="tag is-primary">
-                                    {{formPresentation.name}}
-                                    <button class="delete is-small" type="button"
-                                        @click="deletePresentationFile()"></button>
+                                <b-progress v-if="formPresentation" :value="uploadProgress"></b-progress
+                                    v-if="formPresentation">
+                            </section>
+                        </template>
 
-                                </span>
-                            </div>
-                        </b-field>
+                        <template>
+                            <section>
+                                <p>
+                                    <br /><!-- TODO: Remove this line break (hack) -->
+                                    <b-button native-type="submit" type="is-primary" :loading=submitted>Submit Application</b-button>
+                                </p>
+                            </section>
+                        </template>
 
-                        <b-progress v-if="formPresentation" :value="uploadProgress"></b-progress
-                            v-if="formPresentation">
-                    </section>
-                </template>
-
-                <template>
-                    <section>
-                        <p>
-                            <br /><!-- TODO: Remove this line break (hack) -->
-                            <b-button type="is-primary" @click="submit" :loading=submitted>Submit Application</b-button>
-                        </p>
-                    </section>
-                </template>
-
+                    </form>
+                </ValidationObserver>
             </div>
         </div>
     </div>

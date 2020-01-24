@@ -1,11 +1,30 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import AboutView from '@/views/About.vue'
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
+import { required, email } from 'vee-validate/dist/rules'
 import firebaseConfig from './firebaseConfig'
 import * as firebase from 'firebase/app'
 import 'firebase/storage'
 import 'firebase/firestore'
 
+Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('ValidationObserver', ValidationObserver)
 firebase.initializeApp(firebaseConfig)
+
+// extend('secret', {
+//   validate: value => value === 'example',
+//   message: 'This is not the magic word'
+// })
+
+extend('email', {
+  ...email,
+  message: 'Must be a valid email'
+})
+
+extend('required', {
+  ...required,
+  message: 'Required'
+})
 
 @Component({
   components: {
@@ -56,6 +75,18 @@ export default class SubmitPage extends Vue {
     const file = this.formPresentation
 
     if (file) {
+      const maxSize = 10
+      if (file.size > (maxSize * 1000000)) {
+        this.$buefy.notification.open(`Presentation must be less than ${maxSize}MB`)
+        this.formPresentation = null
+        return
+      }
+      if (!file.name.toLowerCase().endsWith('pdf')) {
+        this.$buefy.notification.open(`Presentations must be PDF format`)
+        this.formPresentation = null
+        return
+      }
+
       const fileRef = this.getPresentationRef(file)
       const task = firebase.storage().ref(fileRef).put(file)
 
@@ -104,7 +135,7 @@ export default class SubmitPage extends Vue {
       .collection('teams').doc(this.userUid)
       .set(update, { merge: true })
       .then(() => {
-        this.$buefy.snackbar.open('Success!')
+        this.$buefy.notification.open('Success!')
         this.submitted = false
       })
       .catch(err => {

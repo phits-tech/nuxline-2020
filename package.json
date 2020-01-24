@@ -12,6 +12,7 @@
     "buefy": "^0.8.9",
     "core-js": "^3.4.4",
     "firebase": "^7.6.2",
+    "vee-validate": "^3.2.2",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0",
