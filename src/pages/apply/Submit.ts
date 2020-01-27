@@ -33,9 +33,6 @@ extend('required', {
 })
 
 export default class SubmitPage extends Vue {
-  // TODO - Get the user's actual UID
-  private userUid = 'example123'
-
   // Data & State
   private formTeamName: string = ''
   private formContactName: string = ''
@@ -43,6 +40,7 @@ export default class SubmitPage extends Vue {
   private formEmail: string = ''
   private formPresentation: File | null = null
 
+  private randomKey = this.uuidv4()
   private presentationRef: string | null = null
   private presentationUrl: string | null = null
 
@@ -68,7 +66,7 @@ export default class SubmitPage extends Vue {
   }
 
   getPresentationRef (file: File) {
-    return `/presentations/${this.userUid}-${file.name}`
+    return `/presentations/${this.randomKey}-${file.name}`
   }
 
   uploadPresentation () {
@@ -126,13 +124,13 @@ export default class SubmitPage extends Vue {
     const update = {
       teamName: this.formTeamName,
       contactName: this.formContactName,
-      lineId: this.formLine,
+      lineId: this.formLine.replace('@', ''),
       email: this.formEmail,
       presentation: this.presentationUrl
     }
 
     firebase.firestore()
-      .collection('teams').doc(this.userUid)
+      .collection('teams').doc(this.formLine.replace('@', ''))
       .set(update, { merge: true })
       .then(() => {
         this.$buefy.notification.open('Success!')
@@ -141,5 +139,13 @@ export default class SubmitPage extends Vue {
       .catch(err => {
         console.error(err)
       })
+  }
+
+  uuidv4 () {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0
+      const v = c === 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
   }
 }
