@@ -121,12 +121,15 @@ export default class SubmitPage extends Vue {
   submit () {
     this.submitted = true
 
-    const update = {
+    const update: any = {
       teamName: this.formTeamName,
       contactName: this.formContactName,
       lineId: this.formLine.replace('@', ''),
-      email: this.formEmail,
-      presentation: this.presentationUrl
+      email: this.formEmail
+    }
+
+    if (this.presentationUrl) {
+      update.presentation = this.presentationUrl
     }
 
     firebase.firestore()
