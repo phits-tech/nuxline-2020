@@ -37,7 +37,9 @@ const routes: RouteConfig[] = [
       },
       {
         path: 'slides',
-        redirect: 'https://docs.google.com/presentation/d/1hC_nX4zxTnxFkNHXDsEFvzOSywraB_4918EPC4M7UMY/edit?usp=sharing'
+        beforeEnter () {
+          location.href = 'https://docs.google.com/presentation/d/1hC_nX4zxTnxFkNHXDsEFvzOSywraB_4918EPC4M7UMY/edit?usp=sharing'
+        }
       }
     ]
   }
