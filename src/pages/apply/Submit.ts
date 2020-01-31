@@ -38,6 +38,7 @@ export default class SubmitPage extends Vue {
   private formContactName: string = ''
   private formLine: string = ''
   private formEmail: string = ''
+  private formCategory: string = ''
   private formPresentation: File | null = null
 
   private randomKey = this.uuidv4()
@@ -59,6 +60,7 @@ export default class SubmitPage extends Vue {
       formContactName: this.formContactName,
       formLine: this.formLine,
       formEmail: this.formEmail,
+      formCategory: this.formCategory || 'Entrepreneur',
       formPresentation: this.formPresentation,
       uploadProgress: this.uploadProgress,
       submitted: this.submitted
@@ -125,7 +127,8 @@ export default class SubmitPage extends Vue {
       teamName: this.formTeamName,
       contactName: this.formContactName,
       lineId: this.formLine.replace('@', ''),
-      email: this.formEmail
+      email: this.formEmail,
+      category: this.formCategory
     }
 
     if (this.presentationUrl) {

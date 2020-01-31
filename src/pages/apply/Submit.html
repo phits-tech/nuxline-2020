@@ -2,11 +2,20 @@
     <div class="container">
         <div class="columns">
             <div class="column content" style="max-width: 300px; margin-left: auto; margin-right: auto">
-
                 <ValidationObserver v-slot="{ handleSubmit }">
                     <form @submit.prevent="handleSubmit(submit)">
 
                         <h1>Application Form</h1>
+
+                        <b-field>
+                            <br />
+                            <b-radio v-model="formCategory" name="category" native-value="Entrepreneur">
+                                <span>Entrepreneur</span>
+                            </b-radio>
+                            <b-radio v-model="formCategory" name="category" native-value="Student">
+                                <span>Student</span>
+                            </b-radio>
+                        </b-field>
 
                         <ValidationProvider rules="required" v-slot="{ errors }">
                             <b-field label="Team Name" :type="{'is-danger': errors.length}" :message="errors[0]">
@@ -34,45 +43,35 @@
                             </b-field>
                         </ValidationProvider>
 
-                        <template>
-                            <section>
-                                <b-field v-if="!formPresentation" label="Presentation">
-                                    <b-upload v-model="formPresentation" drag-drop>
-                                        <section class="section">
-                                            <div class="content has-text-centered">
-                                                <p>
-                                                    <b-icon icon="upload" size="is-large"></b-icon>
-                                                </p>
-                                                <p>Drop your file here or click to upload</p>
-                                            </div>
-                                        </section>
-                                    </b-upload>
-                                </b-field>
-
-                                <b-field v-if="formPresentation" label="Presentation">
-                                    <div class="tags">
-                                        <span class="tag is-primary">
-                                            {{formPresentation.name}}
-                                            <button class="delete is-small" type="button"
-                                                @click="deletePresentationFile()"></button>
-
-                                        </span>
+                        <b-field v-if="!formPresentation" label="Presentation">
+                            <b-upload v-model="formPresentation" drag-drop>
+                                <section class="section">
+                                    <div class="content has-text-centered">
+                                        <p>
+                                            <b-icon icon="upload" size="is-large"></b-icon>
+                                        </p>
+                                        <p>Drop your file here or click to upload</p>
                                     </div>
-                                </b-field>
+                                </section>
+                            </b-upload>
+                        </b-field>
 
-                                <b-progress v-if="formPresentation" :value="uploadProgress"></b-progress
-                                    v-if="formPresentation">
-                            </section>
-                        </template>
+                        <b-field v-if="formPresentation" label="Presentation">
+                            <div class="tags">
+                                <span class="tag is-primary">
+                                    {{formPresentation.name}}
+                                    <button class="delete is-small" type="button"
+                                        @click="deletePresentationFile()"></button>
 
-                        <template>
-                            <section>
-                                <p>
-                                    <br /><!-- TODO: Remove this line break (hack) -->
-                                    <b-button native-type="submit" type="is-primary" :loading=submitted>Submit Application</b-button>
-                                </p>
-                            </section>
-                        </template>
+                                </span>
+                            </div>
+                        </b-field>
+
+                        <b-progress v-if="formPresentation" :value="uploadProgress"></b-progress
+                            v-if="formPresentation">
+
+                        <b-button native-type="submit" type="is-primary" :loading=submitted>Submit Application
+                        </b-button>
 
                     </form>
                 </ValidationObserver>
