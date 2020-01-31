@@ -92,7 +92,12 @@ export default class SubmitPage extends Vue {
 
       task.on('state_changed',
         snap => { this.uploadProgress = Math.floor(snap.bytesTransferred / snap.totalBytes * 100) },
-        err => console.error(err),
+        err => {
+          if (err) {
+            this.$buefy.notification.open('Error during upload')
+            this.deletePresentationFile()
+          }
+        },
         () => {
           this.uploadProgress = 100
           task.snapshot.ref.getDownloadURL().then(url => { this.presentationUrl = url })
@@ -107,7 +112,6 @@ export default class SubmitPage extends Vue {
     if (this.uploadProgress === 100 && this.presentationRef) {
       // Uploaded already => delete
       firebase.storage().ref(this.presentationRef).delete()
-        .catch((err) => console.error(err))
     } else if (this.uploadTask) {
       // Still uploading => cancel
       this.uploadTask.cancel()
@@ -143,7 +147,10 @@ export default class SubmitPage extends Vue {
         this.submitted = false
       })
       .catch(err => {
-        console.error(err)
+        if (err) {
+          this.$buefy.notification.open('Could not submit :(')
+          this.submitted = false
+        }
       })
   }
 
