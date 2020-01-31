@@ -2,7 +2,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import AboutView from '@/views/About.vue'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
-import firebaseConfig from './firebaseConfig'
+import firebaseConfig from '../../firebaseConfig'
 import * as firebase from 'firebase/app'
 import 'firebase/storage'
 import 'firebase/firestore'
@@ -117,6 +117,7 @@ export default class SubmitPage extends Vue {
       this.uploadTask.cancel()
     }
 
+    // Reset all upload fields
     this.formPresentation = null
     this.presentationUrl = null
     this.presentationRef = null
@@ -125,8 +126,16 @@ export default class SubmitPage extends Vue {
   }
 
   submit () {
+    // Finish file uploads first
+    if (this.uploadTask && this.uploadProgress !== 100) {
+      this.$buefy.notification.open('Please wait for file upload to complete')
+      return
+    }
+
+    // Start submission
     this.submitted = true
 
+    // Data
     const update: any = {
       teamName: this.formTeamName,
       contactName: this.formContactName,
@@ -135,16 +144,18 @@ export default class SubmitPage extends Vue {
       category: this.formCategory
     }
 
+    // Optional data
     if (this.presentationUrl) {
       update.presentation = this.presentationUrl
     }
 
+    // Save to Firestore
     firebase.firestore()
       .collection('teams').doc(this.formLine.replace('@', ''))
       .set(update, { merge: true })
       .then(() => {
-        this.$buefy.notification.open('Success!')
         this.submitted = false
+        this.$router.push('confirm')
       })
       .catch(err => {
         if (err) {
