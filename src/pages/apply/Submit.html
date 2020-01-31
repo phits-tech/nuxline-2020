@@ -67,8 +67,9 @@
                             </div>
                         </b-field>
 
-                        <b-progress v-if="formPresentation" :value="uploadProgress"></b-progress
-                            v-if="formPresentation">
+                        <b-progress v-if="formPresentation" :value="uploadProgress" :show-value="uploadProgress===100">
+                            Upload complete
+                        </b-progress>
 
                         <b-button native-type="submit" type="is-primary" :loading=submitted>Submit Application
                         </b-button>
