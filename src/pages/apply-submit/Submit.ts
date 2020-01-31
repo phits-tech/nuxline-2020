@@ -139,6 +139,8 @@ export default class SubmitPage extends Vue {
     const lineIdClean = this.formLine.replace('@', '').toLowerCase()
 
     const update: any = {
+      updated: firebase.firestore.FieldValue.serverTimestamp(),
+      updates: firebase.firestore.FieldValue.arrayUnion(firebase.firestore.Timestamp.now()),
       teamName: this.formTeamName,
       contactName: this.formContactName,
       lineId: lineIdClean,
@@ -149,6 +151,7 @@ export default class SubmitPage extends Vue {
     // Optional data
     if (this.presentationUrl) {
       update.presentation = this.presentationUrl
+      update.presentations = firebase.firestore.FieldValue.arrayUnion(this.presentationUrl)
     }
 
     // Save to Firestore
