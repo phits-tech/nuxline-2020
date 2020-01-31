@@ -136,10 +136,12 @@ export default class SubmitPage extends Vue {
     this.submitted = true
 
     // Data
+    const lineIdClean = this.formLine.replace('@', '').toLowerCase()
+
     const update: any = {
       teamName: this.formTeamName,
       contactName: this.formContactName,
-      lineId: this.formLine.replace('@', ''),
+      lineId: lineIdClean,
       email: this.formEmail,
       category: this.formCategory
     }
@@ -151,7 +153,7 @@ export default class SubmitPage extends Vue {
 
     // Save to Firestore
     firebase.firestore()
-      .collection('teams').doc(this.formLine.replace('@', ''))
+      .collection('teams').doc(lineIdClean)
       .set(update, { merge: true })
       .then(() => {
         this.submitted = false
