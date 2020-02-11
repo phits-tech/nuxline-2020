@@ -11,11 +11,6 @@ Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 firebase.initializeApp(firebaseConfig)
 
-// extend('secret', {
-//   validate: value => value === 'example',
-//   message: 'This is not the magic word'
-// })
-
 extend('email', {
   ...email,
   message: 'Must be a valid email'
@@ -90,12 +85,13 @@ export default class SubmitPage extends Vue {
       const fileRef = this.getPresentationRef(file)
       const task = firebase.storage().ref(fileRef).put(file)
 
+      this.uploadProgress = 0
       task.on('state_changed',
         snap => { this.uploadProgress = Math.floor(snap.bytesTransferred / snap.totalBytes * 100) },
         err => {
           if (err) {
-            this.$buefy.notification.open('Error during upload')
             this.deletePresentationFile()
+            this.$buefy.notification.open('Upload failed')
           }
         },
         () => {
