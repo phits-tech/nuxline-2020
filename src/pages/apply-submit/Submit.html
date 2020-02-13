@@ -5,6 +5,10 @@
                 <div class="content">
                     <h1>Application Form</h1>
                     <p>
+                        <strong>สมาชิกในทีมเพียง 1 คนเท่านั้นที่จะต้องสมัคร</strong><br />
+                        สำหรับ Presentation และคำแนะนำอื่นๆ <router-link to="apply">ดูวิธีการสมัคร</router-link>
+                    </p>
+                    <p>
                         <strong>Only 1 team member needs to apply.</strong><br />
                         For presentation template and guidance, see <router-link to="apply">how to apply</router-link>.
                     </p>
@@ -71,7 +75,8 @@
                                         <!-- <div v-if="uploadProgress<100" class="loader" is-loading
                                             style="margin-left: 0.7em;"></div> -->
 
-                                        <span v-if="uploadProgress<100" style="font-style: italic; font-size: 0.8em; margin-left: 0.9em;">{{uploadProgress}}%</span>
+                                        <span v-if="uploadProgress<100"
+                                            style="font-style: italic; font-size: 0.8em; margin-left: 0.9em;">{{uploadProgress}}%</span>
 
                                         <span v-if="uploadProgress===100"
                                             style="font-style: italic; font-size: 0.8em; margin-left: 0.9em;">uploaded!</span>
