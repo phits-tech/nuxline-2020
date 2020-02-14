@@ -1,4 +1,10 @@
 figure.image.is-centered {
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: auto;
+}
+
+.lastColRight tr td:nth-last-child(1),
+.lastColRight tr th:nth-last-child(1) {
+    text-align: right;
+    white-space: nowrap;
 }
