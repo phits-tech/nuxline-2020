@@ -12,7 +12,7 @@ const routes: RouteConfig[] = [
     path: '/line', redirect: '/nuxline'
   },
   {
-    path: '/nuxline/',
+    path: '/nuxline',
     component: Pages.SiteRoot,
     children: [
       {
@@ -26,6 +26,11 @@ const routes: RouteConfig[] = [
         component: Pages.SchedulePage
       },
       {
+        path: 'hackathon',
+        name: 'hackathon',
+        component: Pages.HackathonPage
+      },
+      {
         path: 'apply',
         name: 'apply',
         component: Pages.ApplyPage
@@ -33,12 +38,12 @@ const routes: RouteConfig[] = [
       {
         path: 'submit',
         name: 'submit',
-        component: Pages.SubmitPage
+        component: Pages.ApplySubmitPage
       },
       {
         path: 'confirm',
         name: 'confirm',
-        component: Pages.ConfirmPage
+        component: Pages.ApplyConfirmPage
       },
       {
         path: 'slides',

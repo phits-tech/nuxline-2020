@@ -9,6 +9,7 @@
       <template slot="end">
         <b-navbar-item tag="router-link" :to="{ name: 'landing' }">About</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ name: 'schedule' }">Schedule</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ name: 'hackathon' }">Hackathon</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ name: 'apply' }">How to apply</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ name: 'submit' }">
           <a class="button is-primary is-inverted">

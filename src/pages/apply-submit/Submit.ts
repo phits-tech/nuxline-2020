@@ -1,5 +1,4 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import AboutView from '@/views/About.vue'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 import firebaseConfig from '../../firebaseConfig'
@@ -21,13 +20,8 @@ extend('required', {
   message: 'Required'
 })
 
-@Component({
-  components: {
-    'app-about': AboutView
-  }
-})
-
-export default class SubmitPage extends Vue {
+@Component
+export default class ApplySubmitPage extends Vue {
   // Data & State
   private formTeamName: string = ''
   private formContactName: string = ''
