@@ -24,9 +24,14 @@
         <p>
           <strong>NU x LINE Mentorship Programme</strong> is supported by
         </p>
-        <p>
-          <img src="@/assets/supported-by-logos.png" style="max-width: 600px; width: 100%" />
-        </p>
+        <div style="max-width: 650px; margin: auto; display: flex; flex-direction: row; flex-wrap: nowrap;">
+          <div style="flex-grow: 230;"><a href="https://www.mhesi.go.th"><img src="@/assets/supported-mhesi.png" style="width: 100%;" /></a></div>
+          <div style="flex-grow: 176;"><a href="https://www.mhesi.go.th"><img src="@/assets/supported-sibb.png" style="width: 100%;" /></a></div>
+          <div style="flex-grow: 150;"><a href="https://www.nu.ac.th"><img src="@/assets/supported-nu.png" style="width: 100%;" /></a></div>
+          <div style="flex-grow: 200;"><a href="http://www.research.nu.ac.th"><img src="@/assets/supported-dri.png" style="width: 100%;" /></a></div>
+          <div style="flex-grow: 210;"><a href="http://scipark.nu.ac.th"><img src="@/assets/supported-sci-park.png" style="width: 100%;" /></a></div>
+          <div style="flex-grow: 160;"><a href="https://fb.me/phits.tech"><img src="@/assets/supported-phits-tech.png" style="width: 100%;" /></a></div>
+        </div>
       </div>
     </footer>
   </div>
