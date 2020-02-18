@@ -1,170 +1,144 @@
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
-import { required, email } from 'vee-validate/dist/rules'
-import firebaseConfig from '../../firebaseConfig'
-import * as firebase from 'firebase/app'
-import 'firebase/storage'
-import 'firebase/firestore'
+import { required, email, regex } from 'vee-validate/dist/rules'
+import { firestore, storage, FieldValue, Timestamp } from '@/components/apis/firebase-facade'
+import uidGen from '@/services/uid-gen'
 
-Vue.component('ValidationProvider', ValidationProvider)
-Vue.component('ValidationObserver', ValidationObserver)
-firebase.initializeApp(firebaseConfig)
-
-extend('email', {
-  ...email,
-  message: 'Must be a valid email'
+extend('email', { ...email, message: 'Must be a valid email' })
+extend('required', { ...required, message: 'Required' })
+extend('lineId', {
+  validate: (value) => value.match(/[a-zA-Z]/),
+  message: 'Must be an ID (not a phone number)'
 })
 
-extend('required', {
-  ...required,
-  message: 'Required'
-})
-
-@Component
+@Component({ components: { ValidationProvider, ValidationObserver } })
 export default class ApplySubmitPage extends Vue {
   // Data & State
-  private formTeamName: string = ''
-  private formContactName: string = ''
-  private formLine: string = ''
-  private formEmail: string = ''
-  private formCategory: string = ''
-  private formPresentation: File | null = null
+  formTeamName: string = ''
+  formContactName: string = ''
+  formLine: string = ''
+  formEmail: string = ''
+  formCategory: string = 'Entrepreneur'
+  formPresentation: File | null = null
+  formPresentationUrl: string | null = null
 
-  private randomKey = this.uuidv4()
-  private presentationRef: string | null = null
-  private presentationUrl: string | null = null
+  stateUploadingProgress: number = 0
+  stateSubmitting: boolean = false
 
-  private uploadTask: firebase.storage.UploadTask | null = null
-  private uploadProgress: number = 0
-  private submitted: boolean = false
+  // Internal
+  private randomKey = uidGen()
+  private uploadTaskPres: firebase.storage.UploadTask | null = null
 
-  // Functions
-  mounted () {
-    this.$watch('$data.formPresentation', this.uploadPresentation)
+  // Events
+  @Watch('formPresentation')
+  onPresentationChanged (newValue: File | null, oldValue: File | null) {
+    if (newValue) this.uploadPresentation(newValue)
+    if (oldValue) this.deletePresentation(oldValue)
   }
 
-  data () {
-    return ({
-      formTeamName: this.formTeamName,
-      formContactName: this.formContactName,
-      formLine: this.formLine,
-      formEmail: this.formEmail,
-      formCategory: this.formCategory || 'Entrepreneur',
-      formPresentation: this.formPresentation,
-      uploadProgress: this.uploadProgress,
-      submitted: this.submitted
-    })
-  }
-
-  getPresentationRef (file: File) {
+  // Methods
+  getPresentationStorageRef (file: File) {
     return `/presentations/${this.randomKey}-${file.name}`
   }
 
-  uploadPresentation () {
-    const file = this.formPresentation
-
-    if (file) {
-      const maxSize = 10
-      if (file.size > (maxSize * 1000000)) {
-        this.$buefy.notification.open(`Presentation must be less than ${maxSize}MB`)
-        this.formPresentation = null
-        return
-      }
-      if (!file.name.toLowerCase().endsWith('pdf')) {
-        this.$buefy.notification.open(`Presentations must be PDF format`)
-        this.formPresentation = null
-        return
-      }
-
-      const fileRef = this.getPresentationRef(file)
-      const task = firebase.storage().ref(fileRef).put(file)
-
-      this.uploadProgress = 0
-      task.on('state_changed',
-        snap => { this.uploadProgress = Math.floor(snap.bytesTransferred / snap.totalBytes * 100) },
-        err => {
-          if (err) {
-            this.deletePresentationFile()
-            this.$buefy.notification.open('Upload failed')
-          }
-        },
-        () => {
-          this.uploadProgress = 100
-          task.snapshot.ref.getDownloadURL().then(url => { this.presentationUrl = url })
-        })
-
-      this.uploadTask = task
-      this.presentationRef = fileRef
+  uploadPresentation (file: File) {
+    // Validation
+    const maxSize = 10
+    if (file.size > (maxSize * 1000000)) {
+      this.clearPresentationFile()
+      this.$buefy.notification.open(`Presentation must be less than ${maxSize}MB`)
+      return
     }
+
+    if (!file.name.toLowerCase().endsWith('pdf')) {
+      this.clearPresentationFile()
+      this.$buefy.notification.open(`Presentations must be PDF format`)
+      return
+    }
+
+    // Save to Firebase Storage
+    const task = storage.ref(this.getPresentationStorageRef(file)).put(file)
+    this.stateUploadingProgress = 0
+    this.uploadTaskPres = task
+
+    task.on(
+      'state_changed',
+      snap => { // onUpdate
+        this.stateUploadingProgress = Math.floor(snap.bytesTransferred / snap.totalBytes * 95)
+      },
+      err => { // onError
+        this.clearPresentationFile()
+        // Error type doesn't expose code :/
+        if (!err.message.includes('canceled')) this.$buefy.notification.open('Upload failed')
+      },
+      () => { // onComplete
+        task.snapshot.ref.getDownloadURL()
+          .then(url => {
+            this.formPresentationUrl = url
+            this.stateUploadingProgress = 100
+          })
+          .catch(_err => {
+            this.clearPresentationFile()
+            this.$buefy.notification.open('Upload failed')
+          })
+      }
+    )
   }
 
-  deletePresentationFile () {
-    if (this.uploadProgress === 100 && this.presentationRef) {
-      // Uploaded already => delete
-      firebase.storage().ref(this.presentationRef).delete()
-    } else if (this.uploadTask) {
-      // Still uploading => cancel
-      this.uploadTask.cancel()
+  deletePresentation (file: File) {
+    if (this.formPresentationUrl) {
+      storage.ref(this.getPresentationStorageRef(file)).delete().catch(_err => {})
+    } else if (this.uploadTaskPres) {
+      this.uploadTaskPres.cancel()
     }
 
+    this.clearPresentationFile()
+  }
+
+  clearPresentationFile () {
     // Reset all upload fields
     this.formPresentation = null
-    this.presentationUrl = null
-    this.presentationRef = null
-    this.uploadTask = null
-    this.uploadProgress = 0
+    this.formPresentationUrl = null
+    this.stateUploadingProgress = 0
+    this.uploadTaskPres = null
   }
 
   submit () {
     // Finish file uploads first
-    if (this.uploadTask && this.uploadProgress !== 100) {
+    if (this.formPresentation && !this.formPresentationUrl) {
       this.$buefy.notification.open('Please wait for file upload to complete')
       return
     }
 
-    // Start submission
-    this.submitted = true
+    this.stateSubmitting = true
 
     // Data
     const lineIdClean = this.formLine.replace('@', '').toLowerCase()
 
     const update: any = {
-      updated: firebase.firestore.FieldValue.serverTimestamp(),
-      updates: firebase.firestore.FieldValue.arrayUnion(firebase.firestore.Timestamp.now()),
+      updated: FieldValue.serverTimestamp(),
+      updates: FieldValue.arrayUnion(Timestamp.now()),
       teamName: this.formTeamName,
       contactName: this.formContactName,
       lineId: lineIdClean,
       email: this.formEmail,
-      category: this.formCategory
-    }
-
-    // Optional data
-    if (this.presentationUrl) {
-      update.presentation = this.presentationUrl
-      update.presentations = firebase.firestore.FieldValue.arrayUnion(this.presentationUrl)
+      category: this.formCategory,
+      presentation: this.formPresentationUrl,
+      presentations: FieldValue.arrayUnion(this.formPresentationUrl)
     }
 
     // Save to Firestore
-    firebase.firestore()
+    firestore
       .collection('teams').doc(lineIdClean)
       .set(update, { merge: true })
       .then(() => {
-        this.submitted = false
         this.$router.push('confirm')
       })
       .catch(err => {
         if (err) {
           this.$buefy.notification.open('Could not submit :(')
-          this.submitted = false
+          this.stateSubmitting = false
         }
       })
-  }
-
-  uuidv4 () {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = Math.random() * 16 | 0
-      const v = c === 'x' ? r : (r & 0x3 | 0x8)
-      return v.toString(16)
-    })
   }
 }

@@ -23,7 +23,7 @@
                             </b-field>
                         </ValidationProvider>
 
-                        <ValidationProvider rules="required" v-slot="{ errors }">
+                        <ValidationProvider rules="required|lineId" v-slot="{ errors }">
                             <b-field label="LINE ID (not phone number)" :type="{'is-danger': errors.length}"
                                 style="margin-top: 0.9em;">
                                 <b-input v-model="formLine" placeholder="@iloveline"></b-input>
@@ -66,19 +66,19 @@
                                         </a>
                                     </b-upload>
 
-                                    <b-tag v-if="formPresentation" @close="deletePresentationFile()" type="is-primary"
+                                    <b-tag v-if="formPresentation" @close="formPresentation = null" type="is-primary"
                                         size="is-medium" closable>
                                         {{formPresentation.name.slice(0, -4).substring(0,16) + ((formPresentation.name.length > 20) ? '~' : '') + '.pdf'}}
                                     </b-tag>
 
                                     <span v-if="formPresentation">
-                                        <!-- <div v-if="uploadProgress<100" class="loader" is-loading
+                                        <!-- <div v-if="stateUploadingProgress<100" class="loader" is-loading
                                             style="margin-left: 0.7em;"></div> -->
 
-                                        <span v-if="uploadProgress<100"
-                                            style="font-style: italic; font-size: 0.8em; margin-left: 0.9em;">{{uploadProgress}}%</span>
+                                        <span v-if="stateUploadingProgress<100"
+                                            style="font-style: italic; font-size: 0.8em; margin-left: 0.9em;">{{stateUploadingProgress}}%</span>
 
-                                        <span v-if="uploadProgress===100"
+                                        <span v-if="stateUploadingProgress===100"
                                             style="font-style: italic; font-size: 0.8em; margin-left: 0.9em;">uploaded!</span>
                                     </span>
                                 </div>
@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="content">
-                    <b-button native-type="submit" type="is-primary" :loading=submitted style="margin-top: 0.5em;">
+                    <b-button native-type="submit" type="is-primary" :loading=stateSubmitting style="margin-top: 0.5em;">
                         Submit Application</b-button>
                 </div>
             </div>

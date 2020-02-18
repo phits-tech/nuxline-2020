@@ -4,6 +4,7 @@ node_modules
 *.cache
 
 # local env
+firebase-config.ts
 firebaseConfig.ts
 .env.local
 .env.*.local
