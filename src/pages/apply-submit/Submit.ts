@@ -1,7 +1,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email, regex } from 'vee-validate/dist/rules'
-import { firestore, storage, FieldValue, Timestamp } from '@/components/apis/firebase-facade'
+import { firestore, storage, FieldValue, Timestamp } from '@/services/apis/firebase-facade'
 import uidGen from '@/services/uid-gen'
 
 extend('email', { ...email, message: 'Must be a valid email' })
@@ -22,6 +22,7 @@ export default class ApplySubmitPage extends Vue {
   formPresentation: File | null = null
   formPresentationUrl: string | null = null
 
+  stateAcceptingApplications = false
   stateUploadingProgress: number = 0
   stateSubmitting: boolean = false
 
@@ -42,6 +43,8 @@ export default class ApplySubmitPage extends Vue {
   }
 
   uploadPresentation (file: File) {
+    if (!this.stateAcceptingApplications) return
+
     // Validation
     const maxSize = 10
     if (file.size > (maxSize * 1000000)) {
@@ -104,6 +107,8 @@ export default class ApplySubmitPage extends Vue {
   }
 
   submit () {
+    if (!this.stateAcceptingApplications) return
+
     // Finish file uploads first
     if (this.formPresentation && !this.formPresentationUrl) {
       this.$buefy.notification.open('Please wait for file upload to complete')

@@ -10,8 +10,9 @@
         <b-navbar-item tag="router-link" :to="{ name: 'landing' }">About</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ name: 'schedule' }">Schedule</b-navbar-item>
         <b-navbar-item tag="router-link" :to="{ name: 'hackathon' }">Hackathon</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ name: 'apply' }">How to apply</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ name: 'submit' }">
+        <b-navbar-item tag="router-link" :to="{ name: 'teams' }">Teams</b-navbar-item>
+        <b-navbar-item v-if="stateAcceptingApplications" tag="router-link" :to="{ name: 'apply' }">How to apply</b-navbar-item>
+        <b-navbar-item v-if="stateAcceptingApplications" tag="router-link" :to="{ name: 'submit' }">
           <a class="button is-primary is-inverted">
             <b-icon pack="fas" icon="rocket"></b-icon>
             <strong>Apply Now</strong>
@@ -37,3 +38,12 @@
     </footer>
   </div>
 </template>
+
+<script>
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class ApplySubmitPage extends Vue {
+  stateAcceptingApplications = false
+}
+</script>

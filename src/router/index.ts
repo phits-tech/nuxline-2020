@@ -31,6 +31,11 @@ const routes: RouteConfig[] = [
         component: Pages.HackathonPage
       },
       {
+        path: 'teams',
+        name: 'teams',
+        component: Pages.TeamsPage
+      },
+      {
         path: 'apply',
         name: 'apply',
         component: Pages.ApplyPage

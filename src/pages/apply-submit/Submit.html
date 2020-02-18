@@ -1,9 +1,28 @@
 <ValidationObserver v-slot="{ handleSubmit }">
     <form @submit.prevent="handleSubmit(submit)">
         <section class="section">
-            <div class="container">
+            <div class="container" v-if=!stateAcceptingApplications>
                 <div class="content">
                     <h1>Application Form</h1>
+
+                    <p>Thank you for your interest in NU x LINE.</p>
+
+                    <b-message type="is-warning">
+                        <p>
+                            <b-icon type="is-warning" icon="exclamation-triangle" style="margin-right: 15px;"></b-icon>
+                            Applications are now closed for 2020!
+                        </p>
+                    </b-message>
+
+                    <p>For more events, please follow <a href="http://fb.me/phits.tech">Phits.Tech on Facebook</a></p>
+
+                </div>
+            </div>
+
+            <div class="container" v-if=stateAcceptingApplications>
+                <div class="content">
+                    <h1>Application Form</h1>
+
                     <p>
                         <strong>สมาชิกในทีมเพียง 1 คนเท่านั้นที่จะต้องสมัคร</strong><br />
                         สำหรับ Presentation และคำแนะนำอื่นๆ <router-link to="apply">ดูวิธีการสมัคร</router-link>
@@ -89,7 +108,8 @@
                 </div>
 
                 <div class="content">
-                    <b-button native-type="submit" type="is-primary" :loading=stateSubmitting style="margin-top: 0.5em;">
+                    <b-button native-type="submit" type="is-primary" :disabled=!stateAcceptingApplications
+                        :loading=stateSubmitting style="margin-top: 0.5em;">
                         Submit Application</b-button>
                 </div>
             </div>
