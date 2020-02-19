@@ -50,6 +50,11 @@ const routes: RouteConfig[] = [
         name: 'confirm',
         component: Pages.ApplyConfirmPage
       },
+      // {
+      //   path: 'admin/teams',
+      //   name: 'admin-teams',
+      //   component: Pages.AdminTeamSummary
+      // },
       {
         path: 'slides',
         beforeEnter () {

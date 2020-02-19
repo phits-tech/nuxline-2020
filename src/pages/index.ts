@@ -6,6 +6,7 @@ import TeamsPage from './teams/Teams.vue'
 import ApplyPage from './apply/Apply.vue'
 import ApplySubmitPage from './apply-submit/Submit.vue'
 import ApplyConfirmPage from './apply-confirm/Confirm.vue'
+import AdminTeamSummary from './admin/teams/TeamSummary.vue'
 
 export {
   SiteRoot,
@@ -15,5 +16,6 @@ export {
   TeamsPage,
   ApplyPage,
   ApplySubmitPage,
-  ApplyConfirmPage
+  ApplyConfirmPage,
+  AdminTeamSummary
 }

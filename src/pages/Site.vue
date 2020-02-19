@@ -43,7 +43,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class ApplySubmitPage extends Vue {
+export default class Site extends Vue {
   stateAcceptingApplications = false
 }
 </script>

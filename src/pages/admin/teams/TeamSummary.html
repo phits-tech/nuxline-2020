@@ -1,0 +1,50 @@
+<section class="section">
+  <div class="container">
+    <div class="content">
+
+      <h1>Team Applications</h1>
+      <h2>Entrepreneurs [{{entrepreneurs.length}}]</h2>
+
+      <table>
+        <tr>
+          <th>#</th>
+          <th>PDF</th>
+          <th>Team</th>
+          <th>Contact</th>
+          <th>LINE</th>
+          <th>Email</th>
+        </tr>
+        <tr v-for="(team, index) in entrepreneurs">
+          <td>{{index+1}}</td>
+          <td><a v-bind:href="team.presentation"><b-icon type="is-info" icon="file-powerpoint"></b-icon></a></td>
+          <td>{{team.teamName}}</td>
+          <td>{{team.contactName}}</td>
+          <td><a v-bind:href="'line://oaMessage/@' + team.lineId">{{team.lineId}}</a></td>
+          <td><a v-bind:href="'mailto://' + team.email">{{team.email}}</a></td>
+        </tr>
+      </table>
+
+      <h2>Students [{{students.length}}]</h2>
+
+      <table>
+        <tr>
+          <th>#</th>
+          <th>PDF</th>
+          <th>Team</th>
+          <th>Contact</th>
+          <th>LINE</th>
+          <th>Email</th>
+        </tr>
+        <tr v-for="(team, index) in students">
+          <td>{{index+1}}</td>
+          <td><a v-bind:href="team.presentation"><b-icon type="is-info" icon="file-powerpoint"></b-icon></a></td>
+          <td>{{team.teamName}}</td>
+          <td>{{team.contactName}}</td>
+          <td><a v-bind:href="'line://oaMessage/@' + team.lineId">{{team.lineId}}</a></td>
+          <td><a v-bind:href="'mailto://' + team.email">{{team.email}}</a></td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</section>
