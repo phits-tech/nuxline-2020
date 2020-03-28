@@ -31,6 +31,13 @@ const routes: RouteConfig[] = [
         component: Pages.HackathonPage
       },
       {
+        path: 'hackathon-submit',
+        name: 'hackathon-submit',
+        beforeEnter () {
+          location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd1GK2hU0P6j4KnYcQgwZtlCPKNFJsW7GEAHd6bQUnX365ppQ/viewform'
+        }
+      },
+      {
         path: 'results',
         name: 'results',
         component: Pages.ResultsPage
