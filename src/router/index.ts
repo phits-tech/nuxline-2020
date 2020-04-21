@@ -13,22 +13,22 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/nuxline',
-    component: Pages.SiteRoot,
+    component: Pages.Template,
     children: [
       {
         path: '',
         name: 'landing',
-        component: Pages.LandingPage
+        component: Pages.Landing
       },
       {
         path: 'schedule',
         name: 'schedule',
-        component: Pages.SchedulePage
+        component: Pages.Schedule
       },
       {
         path: 'hackathon',
         name: 'hackathon',
-        component: Pages.HackathonPage
+        component: Pages.Hackathon
       },
       {
         path: 'hackathon-submit',
@@ -40,22 +40,22 @@ const routes: RouteConfig[] = [
       {
         path: 'results',
         name: 'results',
-        component: Pages.ResultsPage
+        component: Pages.Results
       },
       {
         path: 'apply',
         name: 'apply',
-        component: Pages.ApplyPage
+        component: Pages.Apply
       },
       {
         path: 'submit',
         name: 'submit',
-        component: Pages.ApplySubmitPage
+        component: Pages.ApplySubmit
       },
       {
         path: 'confirm',
         name: 'confirm',
-        component: Pages.ApplyConfirmPage
+        component: Pages.ApplyConfirm
       },
       // {
       //   path: 'admin/teams',

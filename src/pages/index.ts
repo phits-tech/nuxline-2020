@@ -1,21 +1,9 @@
-import SiteRoot from './Site.vue'
-import LandingPage from './landing/Landing.vue'
-import SchedulePage from './schedule/Schedule.vue'
-import HackathonPage from './hackathon/Hackathon.vue'
-import ResultsPage from './results/Results.vue'
-import ApplyPage from './apply/Apply.vue'
-import ApplySubmitPage from './apply-submit/Submit.vue'
-import ApplyConfirmPage from './apply-confirm/Confirm.vue'
-import AdminTeamSummary from './admin/teams/TeamSummary.vue'
-
-export {
-  SiteRoot,
-  LandingPage,
-  SchedulePage,
-  HackathonPage,
-  ResultsPage,
-  ApplyPage,
-  ApplySubmitPage,
-  ApplyConfirmPage,
-  AdminTeamSummary
-}
+export { default as Template } from './Template.vue'
+export { default as Landing } from './landing/Landing.vue'
+export { default as Schedule } from './schedule/Schedule.vue'
+export { default as Hackathon } from './hackathon/Hackathon.vue'
+export { default as Results } from './results/Results.vue'
+export { default as Apply } from './apply/Apply.vue'
+export { default as ApplySubmit } from './apply-submit/Submit.vue'
+export { default as ApplyConfirm } from './apply-confirm/Confirm.vue'
+export { default as AdminTeamSummary } from './admin/teams/TeamSummary.vue'
