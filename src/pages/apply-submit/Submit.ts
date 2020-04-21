@@ -55,7 +55,7 @@ export default class ApplySubmitPage extends Vue {
 
     if (!file.name.toLowerCase().endsWith('pdf')) {
       this.clearPresentationFile()
-      this.$buefy.notification.open(`Presentations must be PDF format`)
+      this.$buefy.notification.open('Presentations must be PDF format')
       return
     }
 
