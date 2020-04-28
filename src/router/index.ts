@@ -38,6 +38,13 @@ const routes: RouteConfig[] = [
         }
       },
       {
+        path: 'watch-live',
+        name: 'watch-live',
+        beforeEnter () {
+          location.href = 'https://www.youtube.com/watch?v=ONy4puYrwyo'
+        }
+      },
+      {
         path: 'results',
         name: 'results',
         component: Pages.Results
