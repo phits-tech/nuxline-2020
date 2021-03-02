@@ -1,3 +1,4 @@
+import type firebase from 'firebase/app'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email, regex } from 'vee-validate/dist/rules'
